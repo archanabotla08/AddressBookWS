@@ -130,14 +130,46 @@ public class AddressBookOperations {
 	}
 
 	public static void addMultiplePersons(){
-		System.out.println("Enter the Number of Persons to add : ");
-		int number = sc.nextInt();
-		for(int i=1;i<=number;i++) {
-			addPerson();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the Number of Persons to add :");
+		int numofContacts = sc.nextInt();
+		int createdContacts = 1;
+		while (createdContacts <= numofContacts) {
+			if ((addressBookWithUniqueName() == true) && (noDuplicateEntry() == true)) {
+				addPerson();
+			}
+			createdContacts++;
 		}
-		System.out.println("Number of Persons " + number +" Add Successfully");
-		addressBookCRUDOperationChoice();
+		System.out.println("Number of Persons " + numofContacts +" Add Successfully");
+		addressBookCRUDOperationChoice();	
 	}
+	public static boolean addressBookWithUniqueName() {
+		System.out.println("FirstName of a person is referred to as AddressBookName");
+		System.out.println("Enter First Name");
+		String firstName = sc.next();
+		for (int count = 0; count < addressBookList.size(); count++) {
+			if (addressBookList.get(count).getFirstName().equals(firstName)) {
+				System.out.println("Already an AddressBook exist with this name");
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static boolean noDuplicateEntry() {
+		System.out.println("Enter your First Name");
+		String name = sc.next();
+		for (int count = 0; count < addressBookList.size(); count++) {
+			if (addressBookList.get(count).getFirstName().equals(name)) {
+				System.out.println("Already an AddressBook exist with this name");
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	
 	public static void addAddressBook() {
 		boolean  result = false;
@@ -192,7 +224,10 @@ public class AddressBookOperations {
 			choice = sc.nextInt();
 			switch (choice) {
 			case 1:
-				addPerson();
+				if ((addressBookWithUniqueName() && noDuplicateEntry()) == true) {
+					addPerson();
+				}
+				
 				break;
 			case 2:
 				display();

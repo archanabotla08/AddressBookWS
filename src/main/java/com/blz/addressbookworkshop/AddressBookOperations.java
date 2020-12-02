@@ -13,7 +13,8 @@ public class AddressBookOperations {
 	public static List<AddressBookData> addressBookList = new ArrayList<>();
 	public static List<AddressBookRecord> bookNameList = new ArrayList<>();
 	public static Map<Integer, String> booksList = new HashMap<>();
-  public boolean  result;
+	public static Map<String, String> personByCity = new HashMap<>();
+	public boolean result;
 
 	public static void addPerson() {
 		System.out.println("Enter person details : " + "\n");
@@ -55,7 +56,7 @@ public class AddressBookOperations {
 			int index = sc.nextInt();
 			while (true) {
 				System.out.println("Enter Choice to edit the details : " + "1: lastName " + "2: address " + "3: city "
-						+ "4: state " + "5: zip " + "6: phoneNumber " + "7: email"  + "8: exit");
+						+ "4: state " + "5: zip " + "6: phoneNumber " + "7: email" + "8: exit");
 				int choice = sc.nextInt();
 				switch (choice) {
 				case 1:
@@ -107,7 +108,7 @@ public class AddressBookOperations {
 
 		}
 	}
-	
+
 	public static void deletePerson() {
 		if (addressBookList.isEmpty()) {
 			System.out.println("No Enteries in Address Book : Delete Invalid");
@@ -118,8 +119,8 @@ public class AddressBookOperations {
 			}
 			System.out.println("Enter the firstName to delete that person details : ");
 			String deletePerson = sc.next();
-			for(int i=0;i< addressBookList.size(); i++){
-				if(addressBookList.get(i).getFirstName().equals(deletePerson)){
+			for (int i = 0; i < addressBookList.size(); i++) {
+				if (addressBookList.get(i).getFirstName().equals(deletePerson)) {
 					addressBookList.remove(addressBookList.get(i));
 				}
 			}
@@ -129,7 +130,7 @@ public class AddressBookOperations {
 
 	}
 
-	public static void addMultiplePersons(){
+	public static void addMultiplePersons() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter the Number of Persons to add :");
 		int numofContacts = sc.nextInt();
@@ -137,14 +138,15 @@ public class AddressBookOperations {
 		while (createdContacts <= numofContacts) {
 			if ((addressBookWithUniqueName() == true) && (noDuplicateEntry() == true)) {
 				addPerson();
-			}else {
+			} else {
 				addressBookCRUDOperationChoice();
 			}
 			createdContacts++;
 		}
-		System.out.println("Number of Persons " + numofContacts +" Add Successfully");
-		addressBookCRUDOperationChoice();	
+		System.out.println("Number of Persons " + numofContacts + " Add Successfully");
+		addressBookCRUDOperationChoice();
 	}
+
 	public static boolean addressBookWithUniqueName() {
 		System.out.println("FirstName of a person is referred to as AddressBookName");
 		System.out.println("Enter First Name");
@@ -174,9 +176,8 @@ public class AddressBookOperations {
 		return true;
 	}
 
-	
 	public static void addAddressBook() {
-		boolean  result = false;
+		boolean result = false;
 		System.out.println("Enter the Address Book Id and Name : ");
 		int id = sc.nextInt();
 		String name = sc.next();
@@ -209,11 +210,23 @@ public class AddressBookOperations {
 		addressBookCRUDOperationChoice();
 
 	}
-	
+
 	public static void searchByCityToAddressBook() {
 		System.out.println("Enter the city to search");
 		String city = sc.next();
-		addressBookList.stream().filter(element -> element.getCity().equals(city)).forEach(i->System.out.println("Match Found : "+i.firstName));
+		addressBookList.stream().filter(element -> element.getCity().equals(city))
+				.forEach(i -> System.out.println("Match Found : " + i.firstName));
+		addressBookCRUDOperationChoice();
+	}
+
+	public static void getPersonByCityToAddressBook() {
+		System.out.println("Enter the city to ");
+		String city = sc.next();
+		addressBookList.stream().filter(element -> element.getCity().equals(city))
+				.forEach(i -> personByCity.put(i.firstName, city));
+		for (Map.Entry m : personByCity.entrySet()) {
+			System.out.println(m.getKey() + " : " + m.getValue());
+		}
 		addressBookCRUDOperationChoice();
 	}
 
@@ -223,12 +236,12 @@ public class AddressBookOperations {
 		}
 	}
 
-	
 	public static void addressBookCRUDOperationChoice() {
 		int choice;
 		System.out.println("Menu Item: " + "\n" + "1: Add Person" + "\n" + "2: Display " + "\n" + "3: Edit person"
 				+ "\n" + "4: Delete Person" + "\n" + "5: Add Multiple Persons " + "\n" + "6: Add Address Book " + "\n"
-				+ "7: Display Address Book Record " + "\n" + "8: Search By City " + "9: Exit");
+				+ "7: Display Address Book Record " + "\n" + "8: Search By City " + "\n" + "9: get Persons by city "
+				+ "\n" + "10: Exit");
 		while (true) {
 			System.out.println("Enter the choice");
 			choice = sc.nextInt();
@@ -236,10 +249,9 @@ public class AddressBookOperations {
 			case 1:
 				if ((addressBookWithUniqueName() && noDuplicateEntry()) == true) {
 					addPerson();
-				}else {
+				} else {
 					addressBookCRUDOperationChoice();
 				}
-				
 				break;
 			case 2:
 				display();
@@ -249,7 +261,7 @@ public class AddressBookOperations {
 			case 4:
 				deletePerson();
 			case 5:
-					addMultiplePersons();
+				addMultiplePersons();
 			case 6:
 				addAddressBook();
 			case 7:
@@ -257,6 +269,8 @@ public class AddressBookOperations {
 			case 8:
 				searchByCityToAddressBook();
 			case 9:
+				getPersonByCityToAddressBook();
+			case 10:
 				System.exit(0);
 				break;
 			default:

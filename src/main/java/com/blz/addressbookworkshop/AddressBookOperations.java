@@ -229,6 +229,16 @@ public class AddressBookOperations {
 		}
 		addressBookCRUDOperationChoice();
 	}
+	
+	public static void getCountOfPersonsByCityToAddressBook() {
+		System.out.println("Enter the city to ");
+		String city = sc.next();
+		
+	   long count = addressBookList.stream().filter(element -> element.getCity().equals(city)).count();
+		System.out.println("Number of Persons By City : " + count);
+		addressBookCRUDOperationChoice();
+	}
+
 
 	public static void displayAddressBookRecord() {
 		for (Map.Entry m : booksList.entrySet()) {
@@ -240,8 +250,9 @@ public class AddressBookOperations {
 		int choice;
 		System.out.println("Menu Item: " + "\n" + "1: Add Person" + "\n" + "2: Display " + "\n" + "3: Edit person"
 				+ "\n" + "4: Delete Person" + "\n" + "5: Add Multiple Persons " + "\n" + "6: Add Address Book " + "\n"
-				+ "7: Display Address Book Record " + "\n" + "8: Search By City " + "\n" + "9: get Persons by city "
-				+ "\n" + "10: Exit");
+				+ "7: Display Address Book Record " + "\n" + "8: Search By City " 
+				+"\n"+"9: get Persons by city "+ "\n"+
+				"10: Get Count Of Persons By City " + "\n"+ "11: Exit");
 		while (true) {
 			System.out.println("Enter the choice");
 			choice = sc.nextInt();
@@ -271,6 +282,8 @@ public class AddressBookOperations {
 			case 9:
 				getPersonByCityToAddressBook();
 			case 10:
+				getCountOfPersonsByCityToAddressBook();
+			case 11:
 				System.exit(0);
 				break;
 			default:

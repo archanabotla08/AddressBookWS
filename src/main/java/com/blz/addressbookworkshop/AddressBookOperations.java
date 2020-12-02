@@ -102,12 +102,33 @@ public class AddressBookOperations {
 
 		}
 	}
+	
+	public static void deletePerson() {
+		if (addressBookList.isEmpty()) {
+			System.out.println("No Enteries in Address Book : Delete Invalid");
+			addressBookCRUDOperationChoice();
+		} else {
+			for (AddressBookData i : addressBookList) {
+				System.out.println(addressBookList.indexOf(i) + " : " + i.getFirstName());
+			}
+			System.out.println("Enter the firstName to delete that person details : ");
+			String deletePerson = sc.next();
+			for(int i=0;i< addressBookList.size(); i++){
+				if(addressBookList.get(i).getFirstName().equals(deletePerson)){
+					addressBookList.remove(addressBookList.get(i));
+				}
+			}
+			System.out.println("Deleted Successfully: " + " : " + deletePerson);
+			addressBookCRUDOperationChoice();
+		}
+
+	}
 
 	public static void addressBookCRUDOperationChoice() {
 		int choice;
 		System.out.println("Menu Item: " + "\n" + "1: Add Person" + "\n" + "2: Display " + "\n" + "3: Edit person"
-				+ "\n" + "4: Exit");
-		Label: while (true) {
+				+ "\n" + "4: Delete Person" + "\n" + "5: Exit");
+		while (true) {
 			System.out.println("Enter the choice");
 			choice = sc.nextInt();
 			switch (choice) {
@@ -120,6 +141,8 @@ public class AddressBookOperations {
 			case 3:
 				editPerson();
 			case 4:
+				deletePerson();
+			case 5:
 				System.exit(0);
 				break;
 			default:

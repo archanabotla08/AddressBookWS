@@ -124,10 +124,20 @@ public class AddressBookOperations {
 
 	}
 
+	public static void addMultiplePersons(){
+		System.out.println("Enter the Number of Persons to add : ");
+		int number = sc.nextInt();
+		for(int i=1;i<=number;i++) {
+			addPerson();
+		}
+		System.out.println("Number of Persons " + number +" Add Successfully");
+		addressBookCRUDOperationChoice();
+	}
+	
 	public static void addressBookCRUDOperationChoice() {
 		int choice;
 		System.out.println("Menu Item: " + "\n" + "1: Add Person" + "\n" + "2: Display " + "\n" + "3: Edit person"
-				+ "\n" + "4: Delete Person" + "\n" + "5: Exit");
+				+ "\n" + "4: Delete Person" + "\n" + "5: Add Multiple Persons " + "\n" + "6: Exit");
 		while (true) {
 			System.out.println("Enter the choice");
 			choice = sc.nextInt();
@@ -143,6 +153,8 @@ public class AddressBookOperations {
 			case 4:
 				deletePerson();
 			case 5:
+				addMultiplePersons();
+			case 6:
 				System.exit(0);
 				break;
 			default:

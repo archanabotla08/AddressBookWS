@@ -1,14 +1,19 @@
 package com.blz.addressbookworkshop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookOperations {
 
 	public static Scanner sc = new Scanner(System.in);
 	public static List<AddressBookData> addressBookList = new ArrayList<>();
+	public static List<AddressBookRecord> bookNameList = new ArrayList<>();
+	public static Map<Integer, String> booksList = new HashMap<>();
+  public boolean  result;
 
 	public static void addPerson() {
 		System.out.println("Enter person details : " + "\n");
@@ -134,10 +139,54 @@ public class AddressBookOperations {
 		addressBookCRUDOperationChoice();
 	}
 	
+	public static void addAddressBook() {
+		boolean  result = false;
+		System.out.println("Enter the Address Book Id and Name : ");
+		int id = sc.nextInt();
+		String name = sc.next();
+		AddressBookRecord books = new AddressBookRecord(id, name);
+
+		if (bookNameList.isEmpty()) {
+			System.out.println("check");
+			bookNameList.add(books);
+			booksList.put(id, name);
+			System.out.println("Address Book Added Successfully: ");
+			for (AddressBookRecord i : bookNameList) {
+				System.out.println(i.bookName);
+			}
+		} else {
+			for (int i = 0; i < bookNameList.size(); i++) {
+				if (bookNameList.get(i).getBookName().equals(name)) {
+					result = bookNameList.get(i).getBookName().equals(name);
+					System.out.println("Address Book Already Exists");
+					break;
+				}
+			}
+			if (!result) {
+				bookNameList.add(books);
+				booksList.put(id, name);
+				System.out.println("Address Book Added Successfully: ");
+			}
+
+		}
+
+		addressBookCRUDOperationChoice();
+
+	}
+	
+
+	public static void displayAddressBookRecord() {
+		for (Map.Entry m : booksList.entrySet()) {
+			System.out.println(m.getKey() + " " + m.getValue());
+		}
+	}
+
+	
 	public static void addressBookCRUDOperationChoice() {
 		int choice;
 		System.out.println("Menu Item: " + "\n" + "1: Add Person" + "\n" + "2: Display " + "\n" + "3: Edit person"
-				+ "\n" + "4: Delete Person" + "\n" + "5: Add Multiple Persons " + "\n" + "6: Exit");
+				+ "\n" + "4: Delete Person" + "\n" + "5: Add Multiple Persons " + "\n" + "6: Add Address Book " + "\n"
+				+ "7: Display Address Book Record " + "\n" + "8: Exit");
 		while (true) {
 			System.out.println("Enter the choice");
 			choice = sc.nextInt();
@@ -155,6 +204,10 @@ public class AddressBookOperations {
 			case 5:
 				addMultiplePersons();
 			case 6:
+				addAddressBook();
+			case 7:
+				displayAddressBookRecord();
+			case 8:
 				System.exit(0);
 				break;
 			default:

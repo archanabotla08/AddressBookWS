@@ -1,11 +1,13 @@
 package com.blz.addressbookworkshop;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBookOperations {
 
@@ -14,6 +16,7 @@ public class AddressBookOperations {
 	public static List<AddressBookRecord> bookNameList = new ArrayList<>();
 	public static Map<Integer, String> booksList = new HashMap<>();
 	public static Map<String, String> personByCity = new HashMap<>();
+	public static List<AddressBookData> sortWithPersonName = new ArrayList<AddressBookData>();
 	public boolean result;
 
 	public static void addPerson() {
@@ -238,6 +241,16 @@ public class AddressBookOperations {
 		System.out.println("Number of Persons By City : " + count);
 		addressBookCRUDOperationChoice();
 	}
+	public static void sortByAlphabeticalPersonNameToAddressBook() {
+		
+		if(addressBookList.isEmpty()) {
+			System.out.println("Address Book List is Empty Cannot Sort");
+		}else {
+			sortWithPersonName = addressBookList.stream().sorted(Comparator.comparing(AddressBookData::getFirstName)).collect(Collectors.toList());
+			System.out.println("List Sorted Successfully" + sortWithPersonName );
+		}
+		addressBookCRUDOperationChoice();
+	}
 
 
 	public static void displayAddressBookRecord() {
@@ -252,7 +265,8 @@ public class AddressBookOperations {
 				+ "\n" + "4: Delete Person" + "\n" + "5: Add Multiple Persons " + "\n" + "6: Add Address Book " + "\n"
 				+ "7: Display Address Book Record " + "\n" + "8: Search By City " 
 				+"\n"+"9: get Persons by city "+ "\n"+
-				"10: Get Count Of Persons By City " + "\n"+ "11: Exit");
+				"10: Get Count Of Persons By City " + "\n"+
+				"11: Sort the Adress Book person's Name Order" + "\n" +"12: Exit");
 		while (true) {
 			System.out.println("Enter the choice");
 			choice = sc.nextInt();
@@ -284,6 +298,8 @@ public class AddressBookOperations {
 			case 10:
 				getCountOfPersonsByCityToAddressBook();
 			case 11:
+				sortByAlphabeticalPersonNameToAddressBook();
+			case 12:
 				System.exit(0);
 				break;
 			default:

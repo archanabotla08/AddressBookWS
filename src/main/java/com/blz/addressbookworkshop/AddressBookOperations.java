@@ -137,6 +137,8 @@ public class AddressBookOperations {
 		while (createdContacts <= numofContacts) {
 			if ((addressBookWithUniqueName() == true) && (noDuplicateEntry() == true)) {
 				addPerson();
+			}else {
+				addressBookCRUDOperationChoice();
 			}
 			createdContacts++;
 		}
@@ -150,8 +152,9 @@ public class AddressBookOperations {
 		for (int count = 0; count < addressBookList.size(); count++) {
 			if (addressBookList.get(count).getFirstName().equals(firstName)) {
 				System.out.println("Already an AddressBook exist with this name");
-			} else {
 				return false;
+			} else {
+				return true;
 			}
 		}
 		return true;
@@ -163,8 +166,9 @@ public class AddressBookOperations {
 		for (int count = 0; count < addressBookList.size(); count++) {
 			if (addressBookList.get(count).getFirstName().equals(name)) {
 				System.out.println("Already an AddressBook exist with this name");
-			} else {
 				return false;
+			} else {
+				return true;
 			}
 		}
 		return true;
@@ -206,6 +210,12 @@ public class AddressBookOperations {
 
 	}
 	
+	public static void searchByCityToAddressBook() {
+		System.out.println("Enter the city to search");
+		String city = sc.next();
+		addressBookList.stream().filter(element -> element.getCity().equals(city)).forEach(i->System.out.println("Match Found : "+i.firstName));
+		addressBookCRUDOperationChoice();
+	}
 
 	public static void displayAddressBookRecord() {
 		for (Map.Entry m : booksList.entrySet()) {
@@ -218,7 +228,7 @@ public class AddressBookOperations {
 		int choice;
 		System.out.println("Menu Item: " + "\n" + "1: Add Person" + "\n" + "2: Display " + "\n" + "3: Edit person"
 				+ "\n" + "4: Delete Person" + "\n" + "5: Add Multiple Persons " + "\n" + "6: Add Address Book " + "\n"
-				+ "7: Display Address Book Record " + "\n" + "8: Exit");
+				+ "7: Display Address Book Record " + "\n" + "8: Search By City " + "9: Exit");
 		while (true) {
 			System.out.println("Enter the choice");
 			choice = sc.nextInt();
@@ -226,6 +236,8 @@ public class AddressBookOperations {
 			case 1:
 				if ((addressBookWithUniqueName() && noDuplicateEntry()) == true) {
 					addPerson();
+				}else {
+					addressBookCRUDOperationChoice();
 				}
 				
 				break;
@@ -237,12 +249,14 @@ public class AddressBookOperations {
 			case 4:
 				deletePerson();
 			case 5:
-				addMultiplePersons();
+					addMultiplePersons();
 			case 6:
 				addAddressBook();
 			case 7:
 				displayAddressBookRecord();
 			case 8:
+				searchByCityToAddressBook();
+			case 9:
 				System.exit(0);
 				break;
 			default:

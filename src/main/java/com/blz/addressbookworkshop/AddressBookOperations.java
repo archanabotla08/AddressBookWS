@@ -17,6 +17,7 @@ public class AddressBookOperations {
 	public static Map<Integer, String> booksList = new HashMap<>();
 	public static Map<String, String> personByCity = new HashMap<>();
 	public static List<AddressBookData> sortWithPersonName = new ArrayList<AddressBookData>();
+	public static List<AddressBookData> sortByCity = new ArrayList<AddressBookData>();
 	public boolean result;
 
 	public static void addPerson() {
@@ -251,6 +252,16 @@ public class AddressBookOperations {
 		}
 		addressBookCRUDOperationChoice();
 	}
+	
+	public static void sortByCityToAddressBook() {
+		if(addressBookList.isEmpty()) {
+			System.out.println("Address Book List is Empty Cannot Sort");
+		}else {
+			sortByCity = addressBookList.stream().sorted(Comparator.comparing(AddressBookData::getCity)).collect(Collectors.toList());
+			System.out.println("List Sorted Successfully" + sortByCity );
+		}
+		addressBookCRUDOperationChoice();
+	}
 
 
 	public static void displayAddressBookRecord() {
@@ -266,7 +277,8 @@ public class AddressBookOperations {
 				+ "7: Display Address Book Record " + "\n" + "8: Search By City " 
 				+"\n"+"9: get Persons by city "+ "\n"+
 				"10: Get Count Of Persons By City " + "\n"+
-				"11: Sort the Adress Book person's Name Order" + "\n" +"12: Exit");
+				"11: Sort the Adress Book person's Name Order" + "\n" +
+				"12: Sort the Address Book of Persons By City"+"\n" +"13: Exit");
 		while (true) {
 			System.out.println("Enter the choice");
 			choice = sc.nextInt();
@@ -300,6 +312,8 @@ public class AddressBookOperations {
 			case 11:
 				sortByAlphabeticalPersonNameToAddressBook();
 			case 12:
+				sortByCityToAddressBook();
+			case 13:
 				System.exit(0);
 				break;
 			default:

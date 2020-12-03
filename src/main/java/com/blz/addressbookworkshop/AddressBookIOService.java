@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blz.addressbookworkshop.AddressBookIOServiceOperations.IOService;
+import com.google.gson.Gson;
 import com.opencsv.CSVWriter;
 
 public class AddressBookIOService {
 
 	public static String AddressBookData_FileName = "C:\\Users\\AB\\eclipse-workspace\\AddressBookWorkshop\\static\\AddressBookData.txt";
 	public static String AddressBookData_CSV = "C:\\Users\\AB\\eclipse-workspace\\AddressBookWorkshop\\static\\AddressBookDataCSV.csv";
+	public static String AddressBookData_JSON = "C:\\Users\\AB\\eclipse-workspace\\AddressBookWorkshop\\static\\AddressBookDataJSON.json";
+
 	public void writeDataToFile(List<AddressBookData> list) {
 		StringBuffer strBuffer = new StringBuffer();
 		list.forEach(person ->{
@@ -66,4 +69,25 @@ public class AddressBookIOService {
 //	public void cleanUp() {
 //		write.close();
 //	}
+	
+	// UC15 - read write operation of json
+
+		public void writeToJSON(List<AddressBookData> list) throws IOException {
+			Gson gson = new Gson();
+			String json = gson.toJson(list);
+			FileWriter writer = new FileWriter(String.valueOf(AddressBookData_JSON));
+			writer.write(json);
+			writer.close();
+		}
+
+		public static long countPersonInJSON(IOService io) {
+			long enteries = 0;
+			try {
+				enteries = Files.lines(new File(AddressBookData_JSON).toPath()).count();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return enteries;
+		}
+
 }

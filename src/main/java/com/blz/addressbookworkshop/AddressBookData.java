@@ -11,6 +11,24 @@ public class AddressBookData {
 	public long phoneNumber;
 	public String email;
 	
+	public int id;
+	
+
+	public AddressBookData(int id,String firstName, String lastName, String address, String city, String state, long zip,
+			long phoneNumber, String email) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		
+	}
+
 	public AddressBookData(String firstName,String lastName,String address,String city,String state,long zip,long phoneNumber,String email) {
 		this.firstName = firstName;
 		this.lastName = lastName;

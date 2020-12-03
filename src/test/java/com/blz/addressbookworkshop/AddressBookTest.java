@@ -4,40 +4,27 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.blz.addressbookworkshop.AddressBookDBService.IOService;;
+
 public class AddressBookTest {
 
-	static AddressBookIOServiceOperations addressBook;
-
-	@BeforeClass
-	public static void createAddressBookObj() {
-		addressBook = new AddressBookIOServiceOperations();
-	}
+	static AddressBookDBService addressBookDBService;
 	
-	@Test
-	public void given3PersonDetailsWriteToFileJSONShouldMatchWithEntries() throws IOException {
-		AddressBookData[] personDetailsAdd = {
-				new AddressBookData("Archana", "Botla", "Somesh colony ", "Nanded","Maharashtra" ,431601, 98913526,
-						"arcbot@gmail.com"),
-				new AddressBookData("sweety", "shide", "Somesh colony ", "Nanded","Maharashtra" , 431601, 989143526,
-						"arcbot@gmail.com"),
-				new AddressBookData("sridhar", "Botla", "Somesh colony ", "Nanded","Maharashtra" , 431601, 989143526,
-						"arcbot@gmail.com"),
-				 };
-		addressBook = new AddressBookIOServiceOperations(Arrays.asList(personDetailsAdd));
-		AddressBookIOServiceOperations.writeAddressBookDataToJSON(com.blz.addressbookworkshop.AddressBookIOServiceOperations.IOService.FILE_IO);
-		long entries = AddressBookIOService.countPersonInFile(com.blz.addressbookworkshop.AddressBookIOServiceOperations.IOService.FILE_IO);
-		assertEquals(3, entries);
+	@BeforeClass
+	public static void AddressBookServiceObj() {
+		addressBookDBService = new AddressBookDBService();
 	}
 	@Test
-	public void readAddressBookFile() throws FileNotFoundException {
-		addressBook.readAddressBookDataFromJSON();
-		long entries = AddressBookIOService.countPersonInFile(com.blz.addressbookworkshop.AddressBookIOServiceOperations.IOService.FILE_IO);
-		assertEquals(3, entries);
+	public void givenAddressBookContactsInDB_WhenRetrieved_ShouldMatchContactsCount() throws AddressBookException, SQLException {
+		List<AddressBookData> addressBookData = addressBookDBService.readAddressBookData(IOService.DB_IO);
+		assertEquals(3, addressBookData.size());
 	}
 
 }

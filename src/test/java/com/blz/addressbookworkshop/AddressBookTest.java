@@ -38,5 +38,27 @@ public class AddressBookTest {
 		assertEquals(3, entries);
 	}
 	
+	@Test
+	public void given3PersonDetailsWriteToCSVShouldMatchWithEntries() {
+		AddressBookData[] personDetailsAdd = {
+				new AddressBookData("Archana", "Botla", "Somesh colony ", "Nanded","Maharashtra" ,431601, 98913526,
+						"arcbot@gmail.com"),
+				new AddressBookData("sweety", "shide", "Somesh colony ", "Nanded","Maharashtra" , 431601, 989143526,
+						"arcbot@gmail.com"),
+				new AddressBookData("sridhar", "Botla", "Somesh colony ", "Nanded","Maharashtra" , 431601, 989143526,
+						"arcbot@gmail.com"),
+				 };
+		addressBook = new AddressBookIOServiceOperations(Arrays.asList(personDetailsAdd));
+		AddressBookIOServiceOperations.writeAddressBookDataToCSV(com.blz.addressbookworkshop.AddressBookIOServiceOperations.IOService.FILE_IO);
+		long entries = AddressBookIOService.countPersonInCSV(com.blz.addressbookworkshop.AddressBookIOServiceOperations.IOService.FILE_IO);
+		assertEquals(24, entries);
+	}
+	@Test
+	public void readAddressBookCSV() {
+		addressBook.readDataFromCSV();
+		long entries = AddressBookIOService.countPersonInCSV(com.blz.addressbookworkshop.AddressBookIOServiceOperations.IOService.FILE_IO);
+		assertEquals(24, entries);
+		
+	}
 
 }

@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blz.addressbookworkshop.AddressBookIOServiceOperations.IOService;
+import com.opencsv.CSVWriter;
 
 public class AddressBookIOService {
-	public static final String IOService = null;
-	public static String AddressBookData_FileName = "C:\\Users\\AB\\eclipse-workspace\\AddressBookWorkshop\\static\\AddressBookData.txt";
 
+	public static String AddressBookData_FileName = "C:\\Users\\AB\\eclipse-workspace\\AddressBookWorkshop\\static\\AddressBookData.txt";
+	public static String AddressBookData_CSV = "C:\\Users\\AB\\eclipse-workspace\\AddressBookWorkshop\\static\\AddressBookDataCSV.csv";
 	public void writeDataToFile(List<AddressBookData> list) {
 		StringBuffer strBuffer = new StringBuffer();
 		list.forEach(person ->{
@@ -36,4 +37,33 @@ public class AddressBookIOService {
 		}
 		return enteries;
 	}
+	
+	//UC14
+	
+	public  void writeToCSV(List<AddressBookData> list) {
+		try (CSVWriter write = new CSVWriter(new FileWriter(new File(AddressBookData_CSV), true));) {
+			List<String[]> listCSV = new ArrayList<>();
+			for (AddressBookData person : list) {
+				listCSV.add(new String[] { "AddressBook List:" + "\nFirstName : " + person.firstName + "\nLastName : "
+						+ person.lastName + "\nAddress : " + person.address + "\nCity : " + person.city + "\nZip : "
+						+ person.zip + "\nPhoneNumber : " + person.phoneNumber + "\nEmail : " + person.email });
+			}
+			write.writeAll(listCSV);
+		//	write.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static long countPersonInCSV(IOService io) {
+		long enteries = 0;
+		try {
+			enteries = Files.lines(new File(AddressBookData_CSV).toPath()).count();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return enteries;
+	}
+//	public void cleanUp() {
+//		write.close();
+//	}
 }

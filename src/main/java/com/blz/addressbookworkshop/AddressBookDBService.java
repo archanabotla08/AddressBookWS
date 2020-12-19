@@ -2,7 +2,9 @@ package com.blz.addressbookworkshop;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookDBService {
 	public enum IOService {
@@ -75,6 +77,45 @@ public class AddressBookDBService {
 		addressBookList.add(
 				addressBookDBService.addNewContact(firstName, lastName, address, city, state, zip, phoneNumber, email,startDate,endDate));
 	}
+	public void addNewContact(String firstName, String lastName, String address, String city, String state, long zip,
+			long phoneNo, String email) throws AddressBookException, SQLException {
+		addressBookList.add(
+				addressBookDBService.addNewContact(firstName, lastName, address, city, state, zip, phoneNo, email));
+	}
+	public int addMultipleRecordsInAddressBookWithThreads(List<AddressBookData> addressBookList)
+			throws AddressBookException, SQLException {
+		Map<Integer, Boolean> contactsMap = new HashMap<>();
+		addressBookList.forEach(contactsList -> {
+			Runnable task = () -> {
+				contactsMap.put(contactsList.hashCode(), false);
+				System.out.println("Contact being added: " + Thread.currentThread().getName());
+				try {
+					this.addNewContact(contactsList.firstName, contactsList.lastName, contactsList.address,
+							contactsList.city, contactsList.state, contactsList.zip, contactsList.phoneNumber,
+							contactsList.email);
+				} catch (AddressBookException addressBookException) {
+					new AddressBookException("Cannot update using threads",
+							AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				contactsMap.put(contactsList.hashCode(), true);
+				System.out.println("Contact added: " + Thread.currentThread().getName());
+			};
+			Thread thread = new Thread(task, contactsList.firstName);
+			thread.start();
+		});
+		while (contactsMap.containsValue(false)) {
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException interruptedException) {
+
+			}
+		}
+		System.out.println(addressBookList);
+		return new AddressBookDBService().readAddressBookData(IOService.DB_IO).size();
+	}
+
 
 	
 }

@@ -47,13 +47,23 @@ public class AddressBookTest {
 	public void givenAddresBook_WhenRetrieved_wShouldReturnTotalNoOfCity() throws AddressBookException {
 		Assert.assertEquals(2, addressBookDBService.readEmployeePayrollData("Count", "NANDED"));
 	}
+//	@Test
+//	public void givenAddresBook_WhenAdded_ShouldSyncWithDB() throws AddressBookException, SQLException {
+//		addressBookDBService.readAddressBookData(IOService.DB_IO);
+//		addressBookDBService.addNewContact("Anant", "Botla", "ShivajiNagar", "Mumbai", "Maharashtra", 112345, 908878182,
+//				"anant.123@gmail.com","2019-11-01","2022-12-31");
+//		boolean result = addressBookDBService.checkAddressBookInSyncWithDatabase("Anant");
+//		Assert.assertTrue(result);
+//	}
 	@Test
-	public void givenAddresBook_WhenAdded_ShouldSyncWithDB() throws AddressBookException, SQLException {
+	public void given2Person_WhenAddedDataToDBUsingThread_ShouldMatchPersonsEnteries() throws AddressBookException, SQLException {
+		AddressBookData[] arrayOfEmps = {
+				new AddressBookData("Priti", "Deshmukh", "SOmeshColony", "Pune", "Maharashtra", 123456, 999999999, "priti12@gmail.com"),
+				new AddressBookData("Saneeya", "Patil", "Vazirabad", "Patna", "UttarPradesh", 223456, 998989897,
+						"sanu@gmail.com") };
 		addressBookDBService.readAddressBookData(IOService.DB_IO);
-		addressBookDBService.addNewContact("Anant", "Botla", "ShivajiNagar", "Mumbai", "Maharashtra", 112345, 908878182,
-				"anant.123@gmail.com","2019-11-01","2022-12-31");
-		boolean result = addressBookDBService.checkAddressBookInSyncWithDatabase("Anant");
-		Assert.assertTrue(result);
+		addressBookDBService.addMultipleRecordsInAddressBookWithThreads(Arrays.asList(arrayOfEmps));
+		Assert.assertEquals(5, addressBookDBService.addMultipleRecordsInAddressBookWithThreads(Arrays.asList(arrayOfEmps)));
 	}
 
 }

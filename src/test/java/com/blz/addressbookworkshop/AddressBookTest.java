@@ -27,4 +27,12 @@ public class AddressBookTest {
 		assertEquals(3, addressBookData.size());
 	}
 
+	@Test
+	public void givenAddressBook_WhenUpdate_ShouldSyncWithDB() throws AddressBookException, SQLException {
+		List<AddressBookData> personDetails = addressBookDBService.readAddressBookData(IOService.DB_IO);
+		addressBookDBService.updateContactAddress("SWEETY", "PIMRINAGAR");
+		boolean result = addressBookDBService.checkAddressBookInSyncWithDatabase("SWEETY");
+		assertTrue(result);
+	}
+
 }

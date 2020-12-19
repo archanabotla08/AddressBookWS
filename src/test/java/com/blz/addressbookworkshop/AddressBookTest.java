@@ -11,7 +11,9 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.blz.addressbookworkshop.AddressBookDBService.IOService;;
+import com.blz.addressbookworkshop.AddressBookDBService.IOService;
+
+import junit.framework.Assert;;
 
 public class AddressBookTest {
 
@@ -32,14 +34,18 @@ public class AddressBookTest {
 		List<AddressBookData> personDetails = addressBookDBService.readAddressBookData(IOService.DB_IO);
 		addressBookDBService.updateContactAddress("SWEETY", "PIMRINAGAR");
 		boolean result = addressBookDBService.checkAddressBookInSyncWithDatabase("SWEETY");
-		assertTrue(result);
+		Assert.assertTrue(result);
 	}
 
 	@Test
 	public void givenAddressBook_WhenRetrieved_ShouldMatchAddressBookCountInGivenRange() throws AddressBookException {
-		List<AddressBookData> personDetails = addressBookDBService.readEmployeePayrollData(IOService.DB_IO, "2018-11-01",
+		List<AddressBookData> personDetails = addressBookDBService.readEmployeePayrollData(IOService.DB_IO, "2015-01-01",
 				"2019-08-01");
-		assertEquals(3, personDetails.size());
+		assertEquals(2, personDetails.size());
+	}
+	@Test
+	public void givenAddresBook_WhenRetrieved_wShouldReturnTotalNoOfCity() throws AddressBookException {
+		Assert.assertEquals(2, addressBookDBService.readEmployeePayrollData("Count", "NANDED"));
 	}
 
 }

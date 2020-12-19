@@ -44,7 +44,11 @@ public class AddressBookDBService {
 
 	public boolean checkAddressBookInSyncWithDatabase(String firstname) throws AddressBookException {
 		try {
-			List<AddressBookData> addressBookData = addressBookDBService.getAddressBookData(firstname);
+			List<AddressBookData> addressBookData = addressBookDBService.getAddressBookData(firstname);			
+//			System.out.println("name:"+addressBookData.get(0)+(getAddressBookData(firstname)));	
+//			if(addressBookData.get(0) == getAddressBookData(firstname))
+//				return true;
+//			return true;
 			return addressBookData.get(0).equals(getAddressBookData(firstname));
 		} catch (AddressBookException addressBookException) {
 			throw new AddressBookException("Cannot execute query",
@@ -62,6 +66,9 @@ public class AddressBookDBService {
 		} catch (AddressBookException e) {
 			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
 		}
+	}
+	public int readEmployeePayrollData(String function, String city) throws AddressBookException {
+		return addressBookDBService.readDataPayroll(function, city);
 	}
 
 	

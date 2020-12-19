@@ -25,7 +25,7 @@ public class AddressBookDBServiceOperations {
 		return addressBookDBService;
 	}
 	private Connection getConnection() throws SQLException {
-		String jdbcURL = "jdbc:mysql://localhost:3306/ADDRESSBOOKWS?useSSL=false";
+		String jdbcURL = "jdbc:mysql://localhost:3306/ADDRESSBOOK?useSSL=false";
 		String username = "root";
 		String password = "root";
 		Connection con;
@@ -127,5 +127,18 @@ public class AddressBookDBServiceOperations {
 			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
 		}
 		return addressBookList;
+	}
+	public int readDataPayroll(String total, String city) throws AddressBookException {
+		int count = 0;
+		String query = String.format("select %s(state) from ADDRESSBOOKWS where city = '%s' group by city;", total, city);
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			resultSet.next();
+			count = resultSet.getInt(1);
+		} catch (SQLException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+		return count;
 	}
 }

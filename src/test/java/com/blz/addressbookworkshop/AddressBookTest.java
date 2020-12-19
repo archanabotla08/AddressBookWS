@@ -35,4 +35,11 @@ public class AddressBookTest {
 		assertTrue(result);
 	}
 
+	@Test
+	public void givenAddressBook_WhenRetrieved_ShouldMatchAddressBookCountInGivenRange() throws AddressBookException {
+		List<AddressBookData> personDetails = addressBookDBService.readEmployeePayrollData(IOService.DB_IO, "2018-11-01",
+				"2019-08-01");
+		assertEquals(3, personDetails.size());
+	}
+
 }

@@ -10,7 +10,27 @@ public class AddressBookData {
 	public long zip;
 	public long phoneNumber;
 	public String email;
-	
+	public String startDate;
+	public String endDate;
+	public AddressBookData(int id,String firstName, String lastName, String address, String city, String state, long zip,
+			long phoneNumber, String email, String startDate, String endDate) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		
+	}
+
+
+
 	public int id;
 	
 

@@ -47,5 +47,13 @@ public class AddressBookTest {
 	public void givenAddresBook_WhenRetrieved_wShouldReturnTotalNoOfCity() throws AddressBookException {
 		Assert.assertEquals(2, addressBookDBService.readEmployeePayrollData("Count", "NANDED"));
 	}
+	@Test
+	public void givenAddresBook_WhenAdded_ShouldSyncWithDB() throws AddressBookException, SQLException {
+		addressBookDBService.readAddressBookData(IOService.DB_IO);
+		addressBookDBService.addNewContact("Anant", "Botla", "ShivajiNagar", "Mumbai", "Maharashtra", 112345, 908878182,
+				"anant.123@gmail.com","2019-11-01","2022-12-31");
+		boolean result = addressBookDBService.checkAddressBookInSyncWithDatabase("Anant");
+		Assert.assertTrue(result);
+	}
 
 }

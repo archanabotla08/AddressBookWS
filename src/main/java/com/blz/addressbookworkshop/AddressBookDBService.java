@@ -70,6 +70,11 @@ public class AddressBookDBService {
 	public int readEmployeePayrollData(String function, String city) throws AddressBookException {
 		return addressBookDBService.readDataPayroll(function, city);
 	}
+	public void addNewContact(String firstName, String lastName, String address, String city, String state, int zip,
+			int phoneNumber, String email,String startDate,String endDate) throws AddressBookException, SQLException {
+		addressBookList.add(
+				addressBookDBService.addNewContact(firstName, lastName, address, city, state, zip, phoneNumber, email,startDate,endDate));
+	}
 
 	
 }
